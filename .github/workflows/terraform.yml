@@ -2,6 +2,7 @@ name: 'Terraform'
 
 env:
   TERRAFORM_VERSION: "1.9.6"
+  JOB_ENV: "DEV"
 
 on:
   push:
@@ -39,6 +40,7 @@ jobs:
   terraform-plan:
     name: 'Terraform Plan'
     runs-on: ubuntu-latest
+    environment: ${{ env.JOB_ENV }}
     needs: terraform-check
 
     defaults:
