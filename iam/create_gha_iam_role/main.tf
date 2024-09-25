@@ -21,11 +21,7 @@ resource "aws_iam_role" "github_actions_role" {
       }
     ]
   })
-}
-
-resource "aws_iam_policy_attachment" "github_actions_role_policies" {
-  name = "github_actions_role_policies"
-  for_each = toset([
+  managed_policy_arns = [
     "arn:aws:iam::aws:policy/AmazonEC2FullAccess",
     "arn:aws:iam::aws:policy/AmazonRoute53FullAccess",
     "arn:aws:iam::aws:policy/AmazonS3FullAccess",
@@ -33,8 +29,10 @@ resource "aws_iam_policy_attachment" "github_actions_role_policies" {
     "arn:aws:iam::aws:policy/AmazonVPCFullAccess",
     "arn:aws:iam::aws:policy/AmazonSQSFullAccess",
     "arn:aws:iam::aws:policy/AmazonEventBridgeFullAccess"
-  ])
-
-  policy_arn = each.key
-  roles      = [var.gha_role_name]
+  ]
+  tags = {
+    Name        = var.gha_role_name
+    Environment = var.environment
+    Project     = var.project_name
+  }
 }
