@@ -1,0 +1,21 @@
+name: 'Terraform - DEV'
+
+env:
+  TERRAFORM_VERSION: "1.9.6"
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  id-token: write
+  pull-requests: write
+
+jobs:
+  echo-version:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          echo "TERRAFORM_VERSION: ${{ env.TERRAFORM_VERSION }}"
