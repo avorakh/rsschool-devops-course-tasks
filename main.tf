@@ -1,9 +1,6 @@
-resource "aws_s3_bucket" "example_s3_bucket" {
-  bucket = var.bucket_name
-
-  tags = {
-    Name        = var.bucket_name
-    Environment = var.environment
-    Project     = var.project_name
-  }
+module "s3" {
+  source       = "./s3/add_bucket"
+  bucket_name  = var.bucket_name
+  environment  = var.environment
+  project_name = var.environment
 }
