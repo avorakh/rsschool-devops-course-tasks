@@ -1,4 +1,4 @@
-name: 'Terraform'
+name: 'Terraform - DEV'
 
 env:
   TERRAFORM_VERSION: "1.9.6"
@@ -64,13 +64,13 @@ jobs:
         with:
           terraform_version: ${{ env.TERRAFORM_VERSION }}
 
-#      - name: Terraform Init
-#        id: init
-#        run: terraform init
-#
-#      - name: Terraform Plan
-#        id: plan
-#        run: terraform plan -no-color
+      - name: Terraform Init
+        id: init
+        run: terraform init -backend-config=./config/dev/backend.conf
+
+      - name: Terraform Plan
+        id: plan
+        run: terraform plan -no-color
 
 
 #  terraform-apply:
