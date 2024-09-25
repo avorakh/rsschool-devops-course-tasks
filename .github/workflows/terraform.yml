@@ -1,0 +1,94 @@
+name: 'Terraform'
+
+env:
+  TERRAFORM_VERSION: "1.9.6"
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  terraform-check:
+    name: 'Terraform Check'
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        shell: bash
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: ${{ env.TERRAFORM_VERSION }}
+
+      - name: Terraform Init
+        id: init
+        run: terraform init
+
+      - name: Terraform fmt
+        id: fmt
+        run: terraform fmt -check
+        continue-on-error: true
+
+
+#  terraform-plan:
+#    name: 'Terraform Plan'
+#    runs-on: ubuntu-latest
+#    needs: terraform-check
+#
+#    defaults:
+#      run:
+#        shell: bash
+#
+#    steps:
+#      - name: Checkout
+#        uses: actions/checkout@v4
+#
+#      - name: Setup Terraform
+#        uses: hashicorp/setup-terraform@v3
+#
+#        with:
+#          terraform_version: ${{ env.TERRAFORM_VERSION }}
+#      - name: Terraform Init
+#        id: init
+#        run: terraform init
+#
+#      - name: Terraform Plan
+#        id: plan
+#        run: terraform plan -no-color
+
+
+#  terraform-apply:
+#    name: 'Terraform Apply'
+#    runs-on: ubuntu-latest
+#    needs: [terraform-check, terraform-plan]
+#
+#    defaults:
+#      run:
+#        shell: bash
+#
+#    steps:
+#      - name: Checkout
+#        uses: actions/checkout@v4
+#
+#      - name: Setup Terraform
+#        uses: hashicorp/setup-terraform@v3
+#        with:
+#          terraform_version: ${{ env.TERRAFORM_VERSION }}
+#
+#      - name: Terraform Init
+#        id: init
+#        run: terraform init
+#
+#      - name: Terraform Apply
+#        id: apply
+##        if: github.ref == 'refs/heads/"main"' && github.event_name == 'push'
+#        run: terraform apply -auto-approve -input=false
