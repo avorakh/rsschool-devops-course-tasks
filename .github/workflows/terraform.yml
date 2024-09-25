@@ -40,7 +40,7 @@ jobs:
   terraform-plan:
     name: 'Terraform Plan'
     runs-on: ubuntu-latest
-    environment: ${{ env.JOB_ENVIRONMENT }}
+    environment: "${{ env.JOB_ENVIRONMENT }}"
     needs: terraform-check
 
     defaults:
