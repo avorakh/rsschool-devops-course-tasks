@@ -6,6 +6,7 @@ env:
 on:
   push:
   pull_request:
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -170,35 +171,35 @@ jobs:
               })
             }
 
-#  terraform-apply:
-#    name: 'Terraform Apply'
-#    runs-on: ubuntu-latest
-#    needs: [terraform-check, terraform-plan]
-#
-#    defaults:
-#      run:
-#        shell: bash
-#
-#    steps:
-#      - name: Checkout
-#        uses: actions/checkout@v4
-#
-#      - name: Configure AWS credentials
-#        uses: aws-actions/configure-aws-credentials@v4
-#        with:
-#          role-to-assume: ${{ vars.IAM_ROLE_TO_ASSUME }}
-#          aws-region: ${{ vars.AWS_REGION }}
-#
-#      - name: Setup Terraform
-#        uses: hashicorp/setup-terraform@v3
-#        with:
-#          terraform_version: ${{ env.TERRAFORM_VERSION }}
-#
-#      - name: Terraform Init
-#        id: init
-#        run: terraform init -backend-config=./config/dev/backend.conf
-#
-#      - name: Terraform Apply
-#        id: apply
-##        if: github.ref == 'refs/heads/"main"' && github.event_name == 'push'
-#        run: terraform apply -auto-approve -input=false
+  terraform-apply:
+    name: 'Terraform Apply'
+    if: (github.ref == 'refs/heads/"main"' && github.event_name == 'push') || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    needs: [terraform-check, terraform-plan]
+
+    defaults:
+      run:
+        shell: bash
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ vars.IAM_ROLE_TO_ASSUME }}
+          aws-region: ${{ vars.AWS_REGION }}
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: ${{ env.TERRAFORM_VERSION }}
+
+      - name: Terraform Init
+        id: init
+        run: terraform init -backend-config=./config/dev/backend.conf
+
+      - name: Terraform Apply
+        id: apply
+        run: terraform apply -auto-approve -input=false
