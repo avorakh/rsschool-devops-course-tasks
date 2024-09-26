@@ -5,7 +5,11 @@ env:
 
 on:
   push:
+    branches:
+      - main
   pull_request:
+    branches:
+      - main
   workflow_dispatch:
 
 permissions:
@@ -173,7 +177,8 @@ jobs:
 
   terraform-apply:
     name: 'Terraform Apply'
-    if: (github.ref == 'refs/heads/"main"' && github.event_name == 'push') || github.event_name == 'workflow_dispatch'
+    # disable condition to use the job
+    # if: (github.ref == 'refs/heads/"main"' && github.event_name == 'push') || github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
     needs: [terraform-check, terraform-plan]
 
