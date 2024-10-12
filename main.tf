@@ -18,9 +18,59 @@ module "s3" {
 
 
 # Add VPC
-module "k8s_infra" {
+module "k8s_infra_vpc" {
   source       = "./k8s-infra/vpc"
-  vpc_name  = var.vpc_name
+  vpc_name     = var.vpc_name
+  environment  = var.environment
+  project_name = var.project_name
+}
+
+# Add subnets
+module "k8s_infra_public_subnet_1" {
+  source       = "./k8s-infra/subnet"
+  vpc_id       = module.k8s_infra_vpc.vpc_id
+  subnet_name  = var.public_subnet_1_name
+  subnet_cidr  = var.public_subnet_1_cidr
+  az           = var.az_1
+  is_public_ip = true
+  vpc_name     = var.vpc_name
+  environment  = var.environment
+  project_name = var.project_name
+}
+
+module "k8s_infra_private_subnet_1" {
+  source       = "./k8s-infra/subnet"
+  vpc_id       = module.k8s_infra_vpc.vpc_id
+  subnet_name  = var.private_subnet_1_name
+  subnet_cidr  = var.private_subnet_1_cidr
+  az           = var.az_1
+  is_public_ip = false
+  vpc_name     = var.vpc_name
+  environment  = var.environment
+  project_name = var.project_name
+}
+
+
+module "k8s_infra_public_subnet_2" {
+  source       = "./k8s-infra/subnet"
+  vpc_id       = module.k8s_infra_vpc.vpc_id
+  subnet_name  = var.public_subnet_2_name
+  subnet_cidr  = var.public_subnet_2_cidr
+  az           = var.az_2
+  is_public_ip = true
+  vpc_name     = var.vpc_name
+  environment  = var.environment
+  project_name = var.project_name
+}
+
+module "k8s_infra_private_subnet_2" {
+  source       = "./k8s-infra/subnet"
+  vpc_id       = module.k8s_infra_vpc.vpc_id
+  subnet_name  = var.private_subnet_2_name
+  subnet_cidr  = var.private_subnet_2_cidr
+  az           = var.az_2
+  is_public_ip = false
+  vpc_name     = var.vpc_name
   environment  = var.environment
   project_name = var.project_name
 }
