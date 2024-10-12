@@ -16,3 +16,11 @@ module "s3" {
   project_name = var.project_name
 }
 
+
+# Add VPC
+module "k8s_infra" {
+  source       = "./k8s-infra/vpc"
+  vpc_name  = var.vpc_name
+  environment  = var.environment
+  project_name = var.project_name
+}

@@ -5,3 +5,6 @@ github_repo              = "repo:avorakh/rsschool-devops-course-tasks:*"
 bucket_name  = "avorakh-tf-test-bucket"
 environment  = "DEV"
 project_name = "rsschool-devops-course-tasks"
+
+# VPC
+vpc_name = "rs-devops-vpc"
