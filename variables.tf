@@ -46,7 +46,7 @@ variable "vpc_cidr" {
 variable "vpc_id" {
   description = "VPC ID"
   type        = string
-  default = ""
+  default     = ""
 }
 
 # Availability zones
@@ -100,5 +100,11 @@ variable "private_subnet_2_name" {
 
 variable "private_subnet_2_cidr" {
   description = "CIDR Block for Public Subnet 2"
+  type        = string
+}
+
+# Internet gateway
+variable "igw_name" {
+  description = "Internet gateway name"
   type        = string
 }

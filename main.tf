@@ -74,3 +74,13 @@ module "k8s_infra_private_subnet_2" {
   environment  = var.environment
   project_name = var.project_name
 }
+
+# Internet gateway
+module "k8s_infra_internet_gateway" {
+  source       = "./k8s-infra/internet_gateway"
+  igw_name     = var.igw_name
+  vpc_id       = module.k8s_infra_vpc.vpc_id
+  vpc_name     = var.vpc_name
+  environment  = var.environment
+  project_name = var.project_name
+}

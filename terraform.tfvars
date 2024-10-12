@@ -26,3 +26,6 @@ public_subnet_2_cidr = "10.0.2.0/24"
 # Private subnet 2
 private_subnet_2_name = "Private subnet 2"
 private_subnet_2_cidr = "10.0.4.0/24"
+
+# Internet gateway
+igw_name = "rs-devops-igw"
