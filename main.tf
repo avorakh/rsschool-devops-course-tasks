@@ -135,6 +135,7 @@ module "k8s_infra_private_route_table_association_private_subnet_2" {
   route_table_id = module.k8s_infra_private_route_table.route_table_id
 }
 
+# Secutity groups
 module "k8s_infra_sec_gr_bastion_allow_ssh" {
   source       = "./k8s-infra/security_group/bastion_allow_ssh"
   vpc_id       = module.k8s_infra_vpc.vpc_id
