@@ -102,6 +102,12 @@ jobs:
         with:
           terraform_version: ${{ env.TERRAFORM_VERSION }}
 
+      - name: Set up the bastion pub key
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.BASTION_KEY }}" > ~/.ssh/bastion_key.pub
+          chmod 600 ~/.ssh/bastion_key.pub
+
       - name: Terraform Init
         id: init
         run: terraform init -backend-config=./config/dev/backend.conf
@@ -198,7 +204,13 @@ jobs:
         uses: hashicorp/setup-terraform@v3
         with:
           terraform_version: ${{ env.TERRAFORM_VERSION }}
-
+      
+      - name: Set up the bastion pub key
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.BASTION_KEY }}" > ~/.ssh/bastion_key.pub
+          chmod 600 ~/.ssh/bastion_key.pub
+      
       - name: Terraform Init
         id: init
         run: terraform init -backend-config=./config/dev/backend.conf
