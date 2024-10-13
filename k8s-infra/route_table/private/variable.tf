@@ -9,8 +9,8 @@ variable "public_cidr" {
   default     = "0.0.0.0/0"
 }
 
-variable "igw_id" {
-  description = "Identifier of a VPC internet gateway"
+variable "nat_gw_id" {
+  description = "Identifier of a VPC NAT gateway"
   type        = string
 }
 

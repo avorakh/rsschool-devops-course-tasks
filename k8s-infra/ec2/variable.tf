@@ -19,6 +19,11 @@ variable "private_ssh_sg_id" {
   description = "ID of security group for private that allows ssh and all egress traffic"
 }
 
+variable "ec2_sg_id" {
+  description = "ID of the security group that allows public http/https"
+  type        = string
+}
+
 variable "environment" {
   description = "Environment name"
   type        = string

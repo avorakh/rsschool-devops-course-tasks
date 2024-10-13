@@ -22,3 +22,12 @@ variable "project_name" {
   description = "Project name"
   type        = string
 }
+
+variable "subnet_id" {
+  description = "The subnet ID to create an association"
+  type        = string
+}
+
+variable "private_ip" {
+  default = "10.0.0.5"
+}
