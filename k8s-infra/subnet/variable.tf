@@ -36,5 +36,5 @@ variable "subnet_cidr" {
 variable "is_public_ip" {
   description = "Is public IP addresses is used"
   type        = bool
-  default = false
+  default     = false
 }

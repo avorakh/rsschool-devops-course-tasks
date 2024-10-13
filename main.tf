@@ -84,3 +84,75 @@ module "k8s_infra_internet_gateway" {
   environment  = var.environment
   project_name = var.project_name
 }
+
+
+module "k8s_infra_bastion_public_route_table" {
+  source           = "./k8s-infra/route_table/public"
+  route_table_name = "bastion_public_route_table"
+  vpc_id           = module.k8s_infra_vpc.vpc_id
+  vpc_name         = var.vpc_name
+  igw_id           = module.k8s_infra_internet_gateway.igw_id
+  subnet_id        = module.k8s_infra_public_subnet_1.subnet_id
+  environment      = var.environment
+  project_name     = var.project_name
+}
+
+
+module "k8s_infra_sec_gr_bastion_allow_ssh" {
+  source       = "./k8s-infra/security_group/bastion_allow_ssh"
+  vpc_id       = module.k8s_infra_vpc.vpc_id
+  vpc_name     = var.vpc_name
+  environment  = var.environment
+  project_name = var.project_name
+}
+
+
+module "k8s_infra_sec_gr_private_ssh" {
+  source                  = "./k8s-infra/security_group/private_ssh"
+  vpc_id                  = module.k8s_infra_vpc.vpc_id
+  vpc_name                = var.vpc_name
+  sg_bastion_allow_ssh_id = module.k8s_infra_sec_gr_bastion_allow_ssh.sg_bastion_allow_ssh_id
+  environment             = var.environment
+  project_name            = var.project_name
+}
+
+module "k8s_infra_sec_bastion_hosst" {
+  source             = "./k8s-infra/bastion_host"
+  bastion_public_key = var.bastion_public_key
+  ec2_ami            = var.ec2_ami
+  public_subnet_id   = module.k8s_infra_public_subnet_1.subnet_id
+  bastion_sg_id      = module.k8s_infra_sec_gr_bastion_allow_ssh.sg_bastion_allow_ssh_id
+  environment        = var.environment
+  project_name       = var.project_name
+}
+
+module "k8s_infra_private_subnet_1_instance_1" {
+  source            = "./k8s-infra/ec2"
+  ec2_ami           = var.ec2_ami
+  subnet_id         = module.k8s_infra_private_subnet_1.subnet_id
+  private_ssh_sg_id = module.k8s_infra_sec_gr_private_ssh.sg_private_ssh_id
+  instance_name     = "ubuntu_private-subnet-1_i-1"
+  environment       = var.environment
+  project_name      = var.project_name
+}
+
+module "k8s_infra_private_subnet_2_instance_1" {
+  source            = "./k8s-infra/ec2"
+  ec2_ami           = var.ec2_ami
+  subnet_id         = module.k8s_infra_private_subnet_2.subnet_id
+  private_ssh_sg_id = module.k8s_infra_sec_gr_private_ssh.sg_private_ssh_id
+  instance_name     = "ubuntu_private-subnet-2_i-1"
+  environment       = var.environment
+  project_name      = var.project_name
+}
+
+
+module "k8s_infra_public_subnet_2_instance_1" {
+  source            = "./k8s-infra/ec2"
+  ec2_ami           = var.ec2_ami
+  subnet_id         = module.k8s_infra_public_subnet_2.subnet_id
+  private_ssh_sg_id = module.k8s_infra_sec_gr_private_ssh.sg_private_ssh_id
+  instance_name     = "ubuntu_public-subnet-2_i-1"
+  environment       = var.environment
+  project_name      = var.project_name
+}

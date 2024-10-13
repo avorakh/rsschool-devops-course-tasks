@@ -1,8 +1,3 @@
-variable "igw_name" {
-  description = "Internet gateway name"
-  type        = string
-}
-
 variable "vpc_name" {
   description = "Name of the VPC"
   type        = string
@@ -10,6 +5,11 @@ variable "vpc_name" {
 
 variable "vpc_id" {
   description = "VPC ID"
+  type        = string
+}
+
+variable "sg_bastion_allow_ssh_id" {
+  description = "ID of security group for bastion that allows ssh and all egress traffic"
   type        = string
 }
 

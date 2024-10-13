@@ -108,3 +108,19 @@ variable "igw_name" {
   description = "Internet gateway name"
   type        = string
 }
+
+
+# Bastion host
+variable "bastion_private_key" {
+  default = "bastion_key"
+}
+
+variable "bastion_public_key" {
+  default = "bastion_key.pub"
+}
+
+
+variable "ec2_ami" {
+  description = "EC2 instance AMI"
+}
+

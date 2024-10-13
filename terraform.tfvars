@@ -29,3 +29,6 @@ private_subnet_2_cidr = "10.0.4.0/24"
 
 # Internet gateway
 igw_name = "rs-devops-igw"
+
+# Bastion host
+ec2_ami = "ami-0866a3c8686eaeeba"

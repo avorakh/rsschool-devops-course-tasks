@@ -1,8 +1,3 @@
-variable "igw_name" {
-  description = "Internet gateway name"
-  type        = string
-}
-
 variable "vpc_name" {
   description = "Name of the VPC"
   type        = string
