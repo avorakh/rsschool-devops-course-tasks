@@ -124,3 +124,12 @@ variable "ec2_ami" {
   description = "EC2 instance AMI"
 }
 
+variable "k8s_domain_name" {
+  type    = string
+  default = "example.com"
+}
+
+variable "k8s_subdomain_name" {
+  type    = string
+  default = "k8s.example.com"
+}
