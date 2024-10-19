@@ -101,7 +101,7 @@ To use the Terreform project, follow these steps:
 1. **Verify connection to the bastion**:
 
    ```bash
-   ssh -i ~/.ssh/bastion_key ec2-user@<PUT_PUBLIC_IP_OR_HOST_OF BASTION_INSTANCE>
+   ssh -i ~/.ssh/bastion_key ubuntu@<PUT_PUBLIC_IP_OR_HOST_OF BASTION_INSTANCE>
    ```
 
 2. **Copy the key from the machine to the bastion to have access to private instances**:
@@ -112,7 +112,7 @@ To use the Terreform project, follow these steps:
 
 3. **Connect from the bastion host to a private EC2 instance**:
    ```bash
-   ssh -i ~/.ssh/bastion_key ec2-user@<PUT_PRIVATE_IP>
+   ssh -i ~/.ssh/bastion_key ubuntu@<PUT_PRIVATE_IP>
    ```
 
 
