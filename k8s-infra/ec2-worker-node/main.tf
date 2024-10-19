@@ -1,4 +1,4 @@
-resource "aws_instance" "control_plane_instance" {
+resource "aws_instance" "worker_node_instance" {
   ami                    = var.ec2_ami
   instance_type          = var.instance_type
   subnet_id              = var.subnet_id
@@ -8,7 +8,7 @@ resource "aws_instance" "control_plane_instance" {
   user_data = <<-EOF
               #!/bin/bash
               sudo su
-              apt update && curl -sfL https://get.k3s.io | sh -
+              apt update && apt install docker.io -y
               EOF
 
   tags = {
@@ -17,3 +17,4 @@ resource "aws_instance" "control_plane_instance" {
     Project     = var.project_name
   }
 }
+
