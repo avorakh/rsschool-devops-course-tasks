@@ -36,6 +36,11 @@ Before you begin, ensure you have met the following requirements:
 
 To set up the Terreform project, follow these steps:
 
+0. **Create A Bastion host keypair**: Generate the keypair with the command below:
+   ```bash
+   ssh-keygen -t rsa -b 4096 -f ~/.ssh/bastion_key
+   ```
+
 1. **Clone the Repository**: Clone the project repository to your local machine using the following command:
 
    ```bash
@@ -45,7 +50,7 @@ To set up the Terreform project, follow these steps:
 2. **Navigate to the Project Directory**: Change your working directory to the project folder:
 
    ```bash
-   cd rsschool-devops-course-tasks/task-01
+   cd rsschool-devops-course-tasks
    ```
 
 3. **Initialize Terraform**: Initialize the Terraform working directory. This step downloads the necessary provider plugins:
@@ -89,3 +94,32 @@ To use the Terreform project, follow these steps:
    ```
 
    Confirm the action when prompted. This will delete all the resources managed by Terraform.
+
+
+# Bastion host usage
+
+1. **Verify connection to the bastion**:
+
+   ```bash
+   ssh -i ~/.ssh/bastion_key ec2-user@<PUT_PUBLIC_IP_OR_HOST_OF BASTION_INSTANCE>
+   ```
+
+2. **Copy the key from the machine to the bastion to have access to private instances**:
+
+   ```bash
+   scp -i  ~/.ssh/bastion_key  ~/.ssh/bastion_key ubuntu@<PUT_PUBLIC_IP_OR_HOST_OF BASTION_INSTANCE>:/home/ubuntu/.ssh
+   ```
+
+3. **Connect from the bastion host to a private EC2 instance**:
+   ```bash
+   ssh -i ~/.ssh/bastion_key ec2-user@<PUT_PRIVATE_IP>
+   ```
+
+
+## Architecture
+
+<details>
+  <summary>Deployment Diagram</summary>
+  <img src="images/Deployment_Diagram.png" />
+
+</details>
