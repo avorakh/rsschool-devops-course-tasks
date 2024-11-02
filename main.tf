@@ -112,28 +112,28 @@ module "k8s_infra_public_route_table_association_public_subnet_1" {
 
 
 # Private route table
-module "k8s_infra_private_route_table" {
-  source           = "./k8s-infra/route_table/private"
-  route_table_name = "private_route_table"
-  vpc_id           = module.k8s_infra_vpc.vpc_id
-  vpc_name         = var.vpc_name
-  nat_gw_id        = module.k8s_infra_gateways.nat_gw_id
-  environment      = var.environment
-  project_name     = var.project_name
-}
+# module "k8s_infra_private_route_table" {
+#   source           = "./k8s-infra/route_table/private"
+#   route_table_name = "private_route_table"
+#   vpc_id           = module.k8s_infra_vpc.vpc_id
+#   vpc_name         = var.vpc_name
+#   nat_gw_id        = module.k8s_infra_gateways.nat_gw_id
+#   environment      = var.environment
+#   project_name     = var.project_name
+# }
 
 # Private route table associations
-module "k8s_infra_private_route_table_association_private_subnet_1" {
-  source         = "./k8s-infra/route_table/association"
-  subnet_id      = module.k8s_infra_private_subnet_1.subnet_id
-  route_table_id = module.k8s_infra_private_route_table.route_table_id
-}
+# module "k8s_infra_private_route_table_association_private_subnet_1" {
+#   source         = "./k8s-infra/route_table/association"
+#   subnet_id      = module.k8s_infra_private_subnet_1.subnet_id
+#   route_table_id = module.k8s_infra_private_route_table.route_table_id
+# }
 
-module "k8s_infra_private_route_table_association_private_subnet_2" {
-  source         = "./k8s-infra/route_table/association"
-  subnet_id      = module.k8s_infra_private_subnet_2.subnet_id
-  route_table_id = module.k8s_infra_private_route_table.route_table_id
-}
+# module "k8s_infra_private_route_table_association_private_subnet_2" {
+#   source         = "./k8s-infra/route_table/association"
+#   subnet_id      = module.k8s_infra_private_subnet_2.subnet_id
+#   route_table_id = module.k8s_infra_private_route_table.route_table_id
+# }
 
 # Secutity groups
 module "k8s_infra_sec_gr_bastion_allow_ssh" {
@@ -176,11 +176,11 @@ module "k8s_infra_sec_bastion_host" {
 }
 
 
-module "k8s_infra_private_subnet_1_control_plane_i1" {
+module "k8s_infra_public_subnet_1_control_plane_i1" {
   source            = "./k8s-infra/ec2-control-plane"
   ec2_ami           = var.ec2_ami
   instance_type     = "t3.small"
-  subnet_id         = module.k8s_infra_private_subnet_1.subnet_id
+  subnet_id         = module.k8s_infra_public_subnet_1.subnet_id
   private_ssh_sg_id = module.k8s_infra_sec_gr_private_ssh.sg_private_ssh_id
   ec2_sg_id         = module.k8s_infra_sec_gr_ec2_http.sg_ec2_id
   instance_name     = "control_plane-i1"
@@ -189,17 +189,30 @@ module "k8s_infra_private_subnet_1_control_plane_i1" {
 }
 
 
-module "k8s_infra_private_subnet_2_worker-node_i1" {
+module "k8s_infra_public_subnet_1_worker-node_i1" {
   source            = "./k8s-infra/ec2-worker-node"
   ec2_ami           = var.ec2_ami
-  instance_type     = "t3.small"
-  subnet_id         = module.k8s_infra_private_subnet_2.subnet_id
+  instance_type     = "t3.medium"
+  subnet_id         = module.k8s_infra_public_subnet_1.subnet_id
   private_ssh_sg_id = module.k8s_infra_sec_gr_private_ssh.sg_private_ssh_id
   ec2_sg_id         = module.k8s_infra_sec_gr_ec2_http.sg_ec2_id
   instance_name     = "worker_node-i1"
   environment       = var.environment
   project_name      = var.project_name
 }
+
+
+# module "k8s_infra_private_subnet_2_nfs_server" {
+#   source            = "./k8s-infra/ec2"
+#   ec2_ami           = var.ec2_ami
+#   instance_type     = "t2.small"
+#   subnet_id         = module.k8s_infra_private_subnet_2.subnet_id
+#   private_ssh_sg_id = module.k8s_infra_sec_gr_private_ssh.sg_private_ssh_id
+#   ec2_sg_id         = module.k8s_infra_sec_gr_ec2_http.sg_ec2_id
+#   instance_name     = "nfs_server-i1"
+#   environment       = var.environment
+#   project_name      = var.project_name
+# }
 
 
 
